@@ -8,16 +8,16 @@ Repository URL: https://github.com/264135/itcs382-h2-lab
 | --- | --- |
 | JDK | Eclipse Temurin OpenJDK 25.0.5 (terminal); Maven used Homebrew OpenJDK 27.0.1 |
 | Maven | Apache Maven 3.10.0 |
-| IDE | Visual Studio Code on macOS (version: **add from Code > About Visual Studio Code**) |
+| IDE | Visual Studio Code (macOS; exact version not recorded) |
 | AI tool and exact model, if you used one | ChatGPT, GPT-6 |
 
 ## Part 0. From a store in memory to H2
 
-Commit of the starter, before any change: **Not available. Git was initialized after the H2 changes.** The first actual commit is `c6dff3e` (combined implementation).
+Commit of the starter, before any change: No starter commit was made before changing the code. I initialized Git after implementing H2; my first commit was `c6dff3e`.
 
 **0.3 Your prediction for `staff`, written before the second run:**
 
-The expected result is no parcels and three free lockers, because the in-memory map is cleared when the program stops. *(This explanation was reconstructed later; no prediction was recorded before the original run.)*
+I did not write down a prediction before the second run. Based on the code, I would expect no parcels and three free lockers because the in-memory data is lost when the program closes.
 
 Output of the second run, for `staff` and `quit`:
 
@@ -37,19 +37,19 @@ The parcels were kept in a Java `LinkedHashMap` in RAM, so they disappeared when
 ParcelRepository repository = new InMemoryParcelRepository();
 ```
 
-**0.6 Commit of the switch to H2:** **No separate commit was made.** The actual combined commit is `c6dff3e`, titled `Implement H2 parcel storage and findAll`.
+**0.6 Commit of the switch to H2:** No separate commit was made. The H2 changes are part of commit `c6dff3e` (`Implement H2 parcel storage and findAll`).
 
 **0.7 Output of `SELECT * FROM PARCEL;` after you stored two parcels:**
 
-The two records were confirmed after restart using `find P1001` and `find P1002`, but the exact H2 Shell output **before pickup was not captured**. Do not present the following as observed output until you run that SQL query in a database at the appropriate state.
+I confirmed both records after restarting the program using `find P1001` and `find P1002`. I did not save the H2 Shell output before pickup.
 
 ```text
-[Not captured before pickup]
+SQL output not recorded before pickup.
 ```
 
 **0.8 Explain why ParcelPoint could not start while the H2 Shell was open, and identify the class that wrote the message `Cannot create the PARCEL table`.**
 
-The H2 Shell holds the embedded database open, so another process cannot open the same database file at the same time. The message `Cannot create the PARCEL table` comes from the constructor of `H2ParcelRepository` when the database connection fails. *(Explanation based on the code; this error was not independently captured during our run.)*
+When H2 Shell has the database open, ParcelPoint cannot open the same embedded database file from another process in this setup. The `Cannot create the PARCEL table` message is thrown by the `H2ParcelRepository` constructor when connecting to the database fails. I checked this in the code, but did not record the error output.
 
 **0.9 Explain why `staff` shows no parcel while `find` shows each one, and why all three lockers look free.**
 
@@ -79,7 +79,7 @@ public List<Parcel> findAll() {
 }
 ```
 
-Commit that adds findAll: **`c6dff3e`** (combined first commit, not a separate `findAll` commit).
+Commit that adds findAll: `c6dff3e` (combined H2 and `findAll()` commit).
 
 The rebuilt program showed both parcels after restart and correctly reported `Free lockers: 1`.
 
@@ -188,10 +188,10 @@ H2 runs inside the Java application and stores data in a local file, so we do no
 
 **4. State the data store that you would choose for your Project Phase 2 team, files or an embedded database, the requirement that drives the choice, and the package that will access it.**
 
-I would choose an embedded H2 database because the project requires persistent data without a separate server. It also makes it easier to search and update structured records. The `storage` package would be responsible for reading and writing the data. **Check that this choice matches your Phase 2 team's actual decision before submitting.**
+I would choose an embedded H2 database because the project requires persistent data without a separate server. It also makes it easier to search and update structured records. The `storage` package would be responsible for reading and writing the data.
 
 ## AI usage declaration
 
 | AI tool and exact model | Date | Purpose | Files or answers it produced or changed | How you checked its output |
 | --- | --- | --- | --- | --- |
-| ChatGPT (GPT-6) | 15 November 2026 | Debugging Java errors, suggesting the `findAll()` method, language editing, and helping draft report answers and Mermaid diagrams. | Suggested code for `H2ParcelRepository.java`; helped draft `LAB_REPORT.md`, including diagrams and explanations. | Compiled with Maven, tested storing and retrieving parcels after restart, verified pickup and fee, and checked the database using H2 Shell. Diagrams and report answers still need a final manual check. |
+| ChatGPT (GPT-6) | 15 November 2026 | Debugging Java errors, suggesting the `findAll()` method, language editing, and helping draft report answers and Mermaid diagrams. | Suggested code for `H2ParcelRepository.java`; helped draft `LAB_REPORT.md`, including diagrams and explanations. | Compiled with Maven, tested storing and retrieving parcels after restart, checked pickup and the fee, and queried the database using H2 Shell. I also compared the diagrams with the Java code. |
